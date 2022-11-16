@@ -16,7 +16,9 @@ const readReader = async (
   onChunk: (chunk: Uint8Array) => void,
 ) => {
   let offset = 0;
-  const bufferLen = 4 * 1024;
+
+  // read buffer 1MB
+  const bufferLen = 1 * 1024 * 1024;
   const buffer = new ArrayBuffer(bufferLen);
 
   for (;;) {
