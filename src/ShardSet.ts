@@ -1,5 +1,5 @@
 export class ShardSet {
-  private shardRoot: Record<string, Record<string, boolean>> = Object.create(null);
+  private shardRoot: Map<number, Set<string>> = new Map();
 
   constructor(private shardBuckets: number) {
   }
@@ -27,23 +27,26 @@ export class ShardSet {
   add(buff: Uint8Array, str: string) {
     const { shardRoot } = this;
     const shardKey = this.shardKey(buff);
-    let sub = shardRoot[shardKey];
+    let sub = shardRoot.get(shardKey);
     if (!sub) {
-      sub = shardRoot[shardKey] = Object.create(null);
+      sub = new Set();
+      shardRoot.set(shardKey, sub);
     }
-    sub[str] = true;
+    sub.add(str);
   }
 
   size() {
-    return Object.values(this.shardRoot).reduce((c, sub) => {
-      return c + Object.keys(sub).length;
-    }, 0);
+    let sum = 0;
+    for (const set of this.shardRoot.values()) {
+      sum += set.size;
+    }
+    return sum;
   }
 
   *[Symbol.iterator]() {
-    for (const sub of Object.values(this.shardRoot)) {
-      for (const k of Object.keys(sub)) {
-        yield k;
+    for (const set of this.shardRoot.values()) {
+      for (const str of set) {
+        yield str;
       }
     }
   }
