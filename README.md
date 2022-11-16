@@ -2,7 +2,7 @@
 
 ```bash
 # fill data.json with random string
-FILL_COUNT=1024 ./scripts/fill.sh
+FILL_COUNT=5242880 ./scripts/fill.sh
 
 # count distinct strings
 time ./scripts/distinct.sh

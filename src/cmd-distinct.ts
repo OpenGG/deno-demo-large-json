@@ -1,18 +1,20 @@
-import process from "https://deno.land/std@0.164.0/node/process.ts";
-import { read } from "./read.ts";
+import { getEnvInt } from "./env.ts";
+import { readFile } from "./readFile.ts";
 import { ShardSet } from "./ShardSet.ts";
 import { SimpleParser } from "./SimpleParser.ts";
 
-const SHARD_BUCKETS: number = parseInt(process.env.SHARD_BUCKETS || "", 10) || 256;
+const SHARD_BUCKETS: number = getEnvInt("SHARD_BUCKETS", 256);
 
 const distinct = async () => {
   const set = new ShardSet(SHARD_BUCKETS);
 
-  const parser = new SimpleParser((str: string) => {
-    set.add(str);
+  const decoder = new TextDecoder("ascii");
+  const parser = new SimpleParser((res: Uint8Array) => {
+    const str = decoder.decode(res);
+    set.add(res, str);
   });
 
-  await read("data.json", (chunk) => {
+  await readFile("data.json", (chunk) => {
     parser.push(chunk);
   });
 

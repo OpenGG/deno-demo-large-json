@@ -1,31 +1,37 @@
+const charQuote = '"'.charCodeAt(0);
+
 export class SimpleParser {
   static INIT = 0;
   static STRING = 1;
 
   state = SimpleParser.INIT;
-  buffer: string[] = [];
 
-  constructor(private onString: (s: string) => void) {
+  // Key less than 1k
+  buffer = new ArrayBuffer(1024);
+  view = new Uint8Array(this.buffer);
+  offset = 0;
+
+  constructor(private onChunk: (chunk: Uint8Array) => void) {
   }
 
-  push(chunk: string) {
+  push(chunk: Uint8Array) {
     for (const ch of chunk) {
       switch (this.state) {
         case SimpleParser.INIT:
-          if (ch === '"') {
+          if (ch === charQuote) {
             this.state = SimpleParser.STRING;
+            this.offset = 0;
           }
           break;
         case SimpleParser.STRING:
-          if (ch === '"') {
+          if (ch === charQuote) {
             this.state = SimpleParser.INIT;
-
-            const string = this.buffer.join("");
-            this.buffer = [];
-
-            this.onString(string);
+            const chunk = new Uint8Array(this.buffer, 0, this.offset);
+            this.onChunk(chunk);
+            this.offset = 0;
           } else {
-            this.buffer.push(ch);
+            this.view[this.offset] = ch;
+            this.offset += 1;
           }
           break;
       }

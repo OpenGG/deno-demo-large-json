@@ -5,13 +5,13 @@ export class ShardSet {
   }
 
   // https://chromium.googlesource.com/v8/v8.git/+/refs/tags/10.8.168.19/src/strings/string-hasher-inl.h#21
-  private hash(str: string) {
-    const { length } = str;
+  private hash(buff: Uint8Array) {
+    const { length } = buff;
 
     let runningHash = 0;
 
     for (let i = 0; i < length; i++) {
-      const val = str.charCodeAt(i);
+      const val = buff[i];
       runningHash += val;
       runningHash += runningHash << 10;
       runningHash ^= runningHash >> 6;
@@ -20,13 +20,13 @@ export class ShardSet {
     return runningHash;
   }
 
-  private shardKey(str: string) {
-    return this.hash(str) % this.shardBuckets;
+  private shardKey(buff: Uint8Array) {
+    return this.hash(buff) % this.shardBuckets;
   }
 
-  add(str: string) {
+  add(buff: Uint8Array, str: string) {
     const { shardRoot } = this;
-    const shardKey = this.shardKey(str);
+    const shardKey = this.shardKey(buff);
     let sub = shardRoot[shardKey];
     if (!sub) {
       sub = shardRoot[shardKey] = Object.create(null);
