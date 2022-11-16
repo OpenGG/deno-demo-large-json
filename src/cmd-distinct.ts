@@ -9,8 +9,12 @@ const distinct = async () => {
   const set = new ShardSet(SHARD_BUCKETS);
 
   const decoder = new TextDecoder("ascii");
+
+  // get strings from data.json
   const parser = new SimpleParser((res: Uint8Array) => {
     const str = decoder.decode(res);
+
+    // add into ShardSet()
     set.add(res, str);
   });
 

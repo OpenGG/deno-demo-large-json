@@ -1,5 +1,5 @@
 export class ShardSet {
-  shardRoot: Record<string, Record<string, boolean>> = Object.create(null);
+  private shardRoot: Record<string, Record<string, boolean>> = Object.create(null);
 
   constructor(private shardBuckets: number) {
   }

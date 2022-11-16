@@ -1,15 +1,15 @@
 const charQuote = '"'.charCodeAt(0);
 
 export class SimpleParser {
-  static INIT = 0;
-  static STRING = 1;
+  private static INIT = 0;
+  private static STRING = 1;
 
-  state = SimpleParser.INIT;
+  private state = SimpleParser.INIT;
 
   // Key less than 1k
-  buffer = new ArrayBuffer(1024);
-  view = new Uint8Array(this.buffer);
-  offset = 0;
+  private buffer = new ArrayBuffer(1024);
+  private view = new Uint8Array(this.buffer);
+  private offset = 0;
 
   constructor(private onChunk: (chunk: Uint8Array) => void) {
   }

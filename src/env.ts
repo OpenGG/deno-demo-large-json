@@ -7,7 +7,7 @@ export const getEnvInt = (key: string, defaultValue: number) => {
         return defaultValue
     }
 
-    const val = parseInt(key, 10)
+    const val = parseInt(str, 10)
 
     if (isNaN(val)) {
         return defaultValue
