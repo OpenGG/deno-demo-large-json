@@ -4,4 +4,4 @@ deno run \
     --allow-read \
     --allow-write \
     --allow-env \
-    ./src/cmd-fill.ts
+    ./src/commandFill.ts

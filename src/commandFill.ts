@@ -12,7 +12,7 @@ const randomStr = (): string => {
   return base64.fromArrayBuffer(buffer.buffer);
 };
 
-const fill = async () => {
+const commandFill = async () => {
   await writeFile("data.json", function* () {
     yield "[\n";
 
@@ -25,4 +25,4 @@ const fill = async () => {
   });
 };
 
-fill();
+commandFill();

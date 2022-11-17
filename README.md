@@ -8,5 +8,5 @@ FILL_COUNT=5242880 ./scripts/fill.sh
 time ./scripts/distinct.sh
 
 # compare performance with sort and uniq
-time ./scripts/sort-uniq.sh
+time ./scripts/sortUniq.sh
 ```

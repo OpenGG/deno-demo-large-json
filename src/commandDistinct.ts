@@ -6,7 +6,7 @@ import { SimpleParser } from "./SimpleParser.ts";
 
 const SHARD_BUCKETS: number = getEnvInt("SHARD_BUCKETS", 256);
 
-const distinct = async () => {
+const commandDistinct = async () => {
   const set = new ShardSet(SHARD_BUCKETS);
 
   // get strings from data.json
@@ -24,4 +24,4 @@ const distinct = async () => {
   // console.log([...set].slice(10));
 };
 
-distinct();
+commandDistinct();
