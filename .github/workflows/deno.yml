@@ -37,16 +37,16 @@ jobs:
       - name: test node
         run: |
           cd node
-          echo '% ./scripts/fill.sh' >> node.log 2>&1
-          ./scripts/fill.sh >> node.log 2>&1
+          echo '% FILL_COUNT=2097152 ./scripts/fill.sh' >> node.log 2>&1
+          FILL_COUNT=2097152 ./scripts/fill.sh >> node.log 2>&1
           echo '% ./scripts/distinct.sh' >> node.log 2>&1
           ./scripts/distinct.sh >> node.log 2>&1
           cd -
 
       - name: test deno
         run: |
-          echo '% ./scripts/fill.sh' >> deno.log 2>&1
-          ./scripts/fill.sh >> deno.log 2>&1
+          echo '% FILL_COUNT=2097152 ./scripts/fill.sh' >> deno.log 2>&1
+          FILL_COUNT=2097152 ./scripts/fill.sh >> deno.log 2>&1
           echo '% ./scripts/distinct.sh' >> deno.log 2>&1
           ./scripts/distinct.sh >> deno.log 2>&1
 
