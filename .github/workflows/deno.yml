@@ -39,16 +39,16 @@ jobs:
           cd node
           echo '% FILL_COUNT=5242880 ./scripts/fill.sh' >> node.log 2>&1
           FILL_COUNT=5242880 ./scripts/fill.sh >> node.log 2>&1
-          echo '% ./scripts/distinct.sh' >> node.log 2>&1
-          ./scripts/distinct.sh >> node.log 2>&1
+          echo '% SHARD_BUCKET_COUNT=1024 ./scripts/distinct.sh' >> node.log 2>&1
+          SHARD_BUCKET_COUNT=1024 ./scripts/distinct.sh >> node.log 2>&1
           cd -
 
       - name: test deno
         run: |
           echo '% FILL_COUNT=5242880 ./scripts/fill.sh' >> deno.log 2>&1
           FILL_COUNT=5242880 ./scripts/fill.sh >> deno.log 2>&1
-          echo '% ./scripts/distinct.sh' >> deno.log 2>&1
-          ./scripts/distinct.sh >> deno.log 2>&1
+          echo '% SHARD_BUCKET_COUNT=1024 ./scripts/distinct.sh' >> deno.log 2>&1
+          SHARD_BUCKET_COUNT=1024 ./scripts/distinct.sh >> deno.log 2>&1
 
       - name: test sort uniq
         run: |
