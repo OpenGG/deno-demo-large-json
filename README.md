@@ -16,15 +16,15 @@ v18.12.0
 % FILL_COUNT=5242880 ./scripts/fill.sh
 5242880
 
-real	0m24.273s
-user	0m22.881s
-sys	0m2.001s
-% ./scripts/distinct.sh
+real	0m33.415s
+user	0m31.912s
+sys	0m2.469s
+% SHARD_BUCKET_COUNT=1024 ./scripts/distinct.sh
 1
 
-real	0m21.740s
-user	0m23.088s
-sys	0m0.478s
+real	0m27.282s
+user	0m28.513s
+sys	0m0.822s
 ```
 ## deno
 deno 1.28.1 (release, x86_64-unknown-linux-gnu)
@@ -37,22 +37,22 @@ typescript 4.8.3
 % FILL_COUNT=5242880 ./scripts/fill.sh
 5242880
 
-real	2m20.400s
-user	1m56.097s
-sys	1m33.678s
-% ./scripts/distinct.sh
+real	2m29.434s
+user	2m20.963s
+sys	1m31.933s
+% SHARD_BUCKET_COUNT=1024 ./scripts/distinct.sh
 5242880
 
-real	0m19.145s
-user	0m20.064s
-sys	0m0.698s
+real	0m25.430s
+user	0m26.823s
+sys	0m1.064s
 ```
 ## sort and uniq
 ```bash
 % sort data.json | uniq | wc -l
 5242882
 
-real	0m9.855s
-user	0m17.847s
-sys	0m1.176s
+real	0m12.588s
+user	0m23.095s
+sys	0m1.252s
 ```
