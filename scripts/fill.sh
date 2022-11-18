@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-deno run \
+time deno run \
     --allow-read \
     --allow-write \
     --allow-env \

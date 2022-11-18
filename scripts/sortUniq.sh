@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-sort data.json | uniq | wc -l
+time . ./scripts/sortUniq_.sh

@@ -1,0 +1,81 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow will install Deno then run `deno lint` and `deno test`.
+# For more information see: https://github.com/denoland/setup-deno
+
+name: Deno
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v3
+
+      - name: Setup Deno
+        # uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@9db7f66e8e16b5699a514448ce994936c63f0d54
+        with:
+          deno-version: v1.x
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+
+      - name: test node
+        run: |
+          cd node
+          echo '% ./scripts/fill.sh' >> node.log 2>&1
+          ./scripts/fill.sh >> node.log 2>&1
+          echo '% ./scripts/distinct.sh' >> node.log 2>&1
+          ./scripts/distinct.sh >> node.log 2>&1
+          cd -
+
+      - name: test deno
+        run: |
+          echo '% ./scripts/fill.sh' >> deno.log 2>&1
+          ./scripts/fill.sh >> deno.log 2>&1
+          echo '% ./scripts/distinct.sh' >> deno.log 2>&1
+          ./scripts/distinct.sh >> deno.log 2>&1
+
+      - name: test sort uniq
+        run: |
+          echo '% sort data.json | uniq | wc -l' >> sort.log
+          ./scripts/sortUniq.sh >> sort.log 2>&1
+
+      - name: report
+        run: |
+          cat README.md.example > README.md
+          echo '## node' >> README.md
+          node --version >> README.md
+          echo '```bash' >> README.md
+          cat node/node.log >> README.md
+          echo '```' >> README.md
+          echo '## deno' >> README.md
+          deno --version | perl -pe 's/\n/\n\n/' >> README.md
+          echo '```bash' >> README.md
+          cat deno.log >> README.md
+          echo '```' >> README.md
+          echo '## sort and uniq' >> README.md
+          echo '```bash' >> README.md
+          cat sort.log >> README.md
+          echo '```' >> README.md
+          echo '======='
+          ls -lah *.json
+          echo '======='
+          cat README.md
+
+      - name: Add, commit and push
+        uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.

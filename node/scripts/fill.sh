@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-node \
+time node \
     ./src/commandFill.js
