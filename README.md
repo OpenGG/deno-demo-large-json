@@ -16,15 +16,15 @@ v18.12.0
 % ./scripts/fill.sh
 1048576
 
-real	0m5.748s
-user	0m5.472s
-sys	0m0.574s
+real	0m6.969s
+user	0m6.549s
+sys	0m0.606s
 % ./scripts/distinct.sh
 1
 
-real	0m5.654s
-user	0m5.770s
-sys	0m0.183s
+real	0m5.086s
+user	0m5.416s
+sys	0m0.181s
 ```
 ## deno
 deno 1.28.1 (release, x86_64-unknown-linux-gnu)
@@ -35,27 +35,24 @@ typescript 4.8.3
 
 ```bash
 % ./scripts/fill.sh
-[0m[32mDownload[0m https://denopkg.com/chiefbiiko/base64/mod.ts
-[0m[32mDownload[0m https://denopkg.com/chiefbiiko/base64@master/mod.ts
-[0m[32mDownload[0m https://denopkg.com/chiefbiiko/base64@master/base.ts
 1048576
 
-real	0m28.070s
-user	0m21.593s
-sys	0m19.120s
+real	0m30.891s
+user	0m26.132s
+sys	0m19.954s
 % ./scripts/distinct.sh
 1048576
 
-real	0m5.295s
-user	0m5.539s
-sys	0m0.220s
+real	0m4.691s
+user	0m4.911s
+sys	0m0.232s
 ```
 ## sort and uniq
 ```bash
 % sort data.json | uniq | wc -l
 1048578
 
-real	0m2.095s
-user	0m3.782s
-sys	0m0.235s
+real	0m2.076s
+user	0m3.506s
+sys	0m0.248s
 ```
