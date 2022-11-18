@@ -1,5 +1,5 @@
 const decoder = new TextDecoder("ascii");
 
-export const decodeASCII = (buff: Uint8Array) => {
+export const decodeASCII = (buff) => {
     return decoder.decode(buff);
-}
+};

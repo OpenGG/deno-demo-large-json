@@ -1,7 +1,7 @@
 export class ShardSet {
   private shardRoot: Map<number, Set<string>> = new Map();
 
-  constructor(private shardBuckets: number) {
+  constructor(private bucketCount: number) {
   }
 
   // https://chromium.googlesource.com/v8/v8.git/+/refs/tags/10.8.168.19/src/strings/string-hasher-inl.h#21
@@ -21,7 +21,7 @@ export class ShardSet {
   }
 
   private shardKey(buff: Uint8Array) {
-    return this.hash(buff) % this.shardBuckets;
+    return this.hash(buff) % this.bucketCount;
   }
 
   add(buff: Uint8Array, str: string) {

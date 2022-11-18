@@ -1,23 +1,21 @@
 const charQuote = '"'.charCodeAt(0);
 
 export class SimpleParser {
-  private static INIT = 0;
+  private static NOT_STRING = 0;
   private static STRING = 1;
 
-  private state = SimpleParser.INIT;
+  private state = SimpleParser.NOT_STRING;
 
   // Key less than 1k
-  private buffer = new ArrayBuffer(1024);
-  private view = new Uint8Array(this.buffer);
   private offset = 0;
 
-  constructor(private onChunk: (chunk: Uint8Array) => void) {
+  constructor(private buffer: Uint8Array) {
   }
 
-  push(chunk: Uint8Array) {
-    for (const ch of chunk) {
+  *parse(input: Uint8Array) {
+    for (const ch of input) {
       switch (this.state) {
-        case SimpleParser.INIT:
+        case SimpleParser.NOT_STRING:
           if (ch === charQuote) {
             this.state = SimpleParser.STRING;
             this.offset = 0;
@@ -25,13 +23,16 @@ export class SimpleParser {
           break;
         case SimpleParser.STRING:
           if (ch === charQuote) {
-            this.state = SimpleParser.INIT;
-            const chunk = new Uint8Array(this.buffer, 0, this.offset);
-            this.onChunk(chunk);
+            this.state = SimpleParser.NOT_STRING;
+            const chunk = new Uint8Array(this.buffer.buffer, 0, this.offset);
+            yield chunk;
             this.offset = 0;
           } else {
-            this.view[this.offset] = ch;
-            this.offset += 1;
+            this.buffer[this.offset] = ch;
+            this.offset = Math.min(
+              this.offset + 1,
+              this.buffer.byteLength - 1,
+            );
           }
           break;
       }

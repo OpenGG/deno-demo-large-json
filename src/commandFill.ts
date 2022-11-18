@@ -1,28 +1,28 @@
-import { base64 } from "https://deno.land/x/b64@1.1.25/src/base64.js";
-
+import { randomStr } from "./randomStr.ts";
 import { getEnvInt } from "./env.ts";
-import { writeFile } from "./writeFile.ts";
+import { WriteFileHandle } from "./fs/WriteFileHandle.ts";
 
 const FILL_COUNT = getEnvInt("FILL_COUNT", 1024 * 1024);
 
-const buffer = new Uint8Array(32);
-const randomStr = (): string => {
-  crypto.getRandomValues(buffer);
-
-  return base64.fromArrayBuffer(buffer.buffer);
-};
+console.log(FILL_COUNT);
 
 const commandFill = async () => {
-  await writeFile("data.json", function* () {
-    yield "[\n";
+  const writeFileHandle = await WriteFileHandle("data.json");
 
-    for (let i = 0; i < FILL_COUNT; i++) {
-      const line = `  "${randomStr()}",\n`;
-      yield line;
-    }
+  const encodeBuff = new Uint8Array(1024);
 
-    yield "]";
-  });
+  await writeFileHandle.writeString("[\n", encodeBuff);
+
+  const randomBuff = new Uint8Array(32);
+
+  for (let i = 0; i < FILL_COUNT; i++) {
+    const line = `  "${randomStr(randomBuff)}",\n`;
+    await writeFileHandle.writeString(line, encodeBuff);
+  }
+
+  await writeFileHandle.writeString("]", encodeBuff);
+
+  writeFileHandle.close();
 };
 
 commandFill();
